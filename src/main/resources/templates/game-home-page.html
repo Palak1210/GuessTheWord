@@ -4,26 +4,38 @@
     <meta charset="UTF-8">
     <title>Hello</title>
 </head>
-<style>
-    h1 {
-        text-align: center;
+<!--<style>-->
+<!--    h1 {-->
+<!--        text-align: center;-->
+<!--    }-->
+<!--</style>-->
+<script th:inline="javascript">
+    window.onload = function checkGameOver(){
+        if([[${tries}]] == 0) {
+            alert("Game Over");
+            document.getElementById("guessChar").disabled = true;
+            document.getElementById("tryButton").disabled = true;
+        }
     }
-
-    /*#guessDiv{*/
-    /*    align-self: center;*/
-    /*    align-items: center;*/
-    /*    border: black;*/
-    /*}*/
-</style>
+</script>
 <body>
-<h1 th:text="${randomWord}">hello</h1>
-</hr>
+<h1 align="center">Guess The Word</h1>
+<h1 align="center" th:text="${randomWord}">hello</h1>
+
+<h2 align="right" th:text="'Tries Remaining : ' + ${tries}">
+    tries
+</h2>
+
+<hr/>
 
 <div id="guessDiv" align="center">
     <form method="GET" action="home">
         <label>Guess char</label>
-        <input type="text" name="guessChar" minlength="1" maxlength="1" required="required">
-        <input type="submit" value="enter">
+        <input type="text" name="guessChar" minlength="1" maxlength="1" required="required" id="guessChar">
+        <input type="submit" value="Enter" id="tryButton">
+    </form>
+    <form method="get" action="reload">
+        <input type="submit" value="Reload">
     </form>
 </div>
 </body>

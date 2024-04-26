@@ -1,20 +1,22 @@
 package com.example.guesstheword.service;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 @Service
+@Scope("prototype")
 public class GameService {
-    private String randomChosenWord = null;
-    private String[] randomWords = {"believe","god","incredible","life","blessing","gratitude"};
+    private final String randomChosenWord;
+    private final String[] randomWords = {"believe","god","incredible","life","blessing","gratitude"};
     Random random = new Random();
     private char[] choosenWordChars;
 
     public GameService() {
         randomChosenWord = randomWords[random.nextInt(randomWords.length)];
         choosenWordChars = new char[randomChosenWord.length()];
-        System.out.println(randomChosenWord + "----------------------------------ChoosenWord");
+//        System.out.println(randomChosenWord + "----------------------------------ChoosenWord");
     }
 
     public String getRandomWord() {
@@ -31,16 +33,18 @@ public class GameService {
         return hiddenWord ;
     }
 
-    public void checkGuess(Character guessedChar){
+    public boolean checkGuess(Character guessedChar){
+        boolean found = false;
         if(Character.isAlphabetic(guessedChar)){
             guessedChar = Character.toLowerCase(guessedChar);
             for(int i = 0;i< randomChosenWord.length();i++){
                 if(randomChosenWord.charAt(i) == guessedChar){
                     choosenWordChars[i] = guessedChar;
+                    found = true;
                 }
             }
-        }else{
-            //exceptionHandling
         }
+
+        return found;
     }
 }
